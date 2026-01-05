@@ -5,13 +5,30 @@
 
 import { Platform } from 'react-native';
 
-const tintColorLight = '#0a7ea4';
+// FactFlow brand colors
+export const BrandColors = {
+  primary: '#4A90E2', // Blue
+  secondary: '#50C878', // Teal/Green
+  gradient: ['#4A90E2', '#50C878'] as const, // Blue to Green gradient
+  text: {
+    primary: '#1A1A1A',
+    secondary: '#666666',
+    light: '#FFFFFF',
+  },
+  background: {
+    light: '#FFFFFF',
+    gray: '#F5F5F5',
+  },
+  border: '#E0E0E0',
+};
+
+const tintColorLight = BrandColors.primary;
 const tintColorDark = '#fff';
 
 export const Colors = {
   light: {
-    text: '#11181C',
-    background: '#fff',
+    text: BrandColors.text.primary,
+    background: BrandColors.background.light,
     tint: tintColorLight,
     icon: '#687076',
     tabIconDefault: '#687076',
