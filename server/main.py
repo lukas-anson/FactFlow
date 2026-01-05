@@ -3,32 +3,26 @@ from fastapi import FastAPI, Depends
 from contextlib import asynccontextmanager
 import strawberry
 from strawberry.fastapi import GraphQLRouter
-from config import db
+from server.database import create_db_and_tables, close_db
 
 
 def init_app():
-  app = FastAPI(title="FactFlow GraphQL API")
-
-  # # on_event is deprecated, use lifespan instead
-  # @app.on_event("startup")
-  # async def startup():
-  #   await db.create_all()
-  # @app.on_event("shutdown")
-  # async def shutdown():
-  #   await db.close()
   @asynccontextmanager
   async def lifespan(app: FastAPI):
-      await db.create_all()
+      await create_db_and_tables()
       yield
-      await db.close()
+      await close_db()
 
+  app = FastAPI(
+     title="FactFlow GraphQL API",
+     lifespan=lifespan
+  )
 
   @app.get('/')
   def home():
     return {"msg": "welcome home"}
   
   return app
-
 
 app = init_app()
 
